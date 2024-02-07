@@ -41,6 +41,7 @@ class BilingualDataset(Dataset):
         if enc_num_padding_tokens < 0 or dec_num_padding_tokens < 0:
             raise ValueError("Sequence length too small")
 
+        # Add SOS and EOS to the source text
         encoder_input = torch.cat(
             [
                 self.sos_token,
@@ -52,6 +53,7 @@ class BilingualDataset(Dataset):
             ]
         )
 
+        # Add SOS to the decoder input
         decoder_input = torch.cat(
             [
                 self.sos_token,
@@ -62,6 +64,7 @@ class BilingualDataset(Dataset):
             ]
         )
 
+        # Add EOS to the label (what we expect as output from decoder)
         label = torch.cat(
             [
                 torch.tensor(dec_input_tokens, dtype=torch.int64),
